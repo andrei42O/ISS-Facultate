@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User extends Entity<Long> {
+public abstract class User extends Entity<Long> {
     private static final long serialVersionUID = 6529685098267751237L;
     private String username;
     private String password;
@@ -15,6 +15,10 @@ public class User extends Entity<Long> {
         this.password = password;
         this.name = name;
         this.job = job;
+    }
+
+    public User() {
+
     }
 
     public String getName() {
@@ -64,6 +68,14 @@ public class User extends Entity<Long> {
 
     public JobType getJob() {
         return job;
+    }
+
+    public String getJobAsString(){
+        return job.toString();
+    }
+
+    public void setJobAsString(String jobType){
+        this.job = JobType.valueOf(jobType);
     }
 
     public void setJob(JobType job) {

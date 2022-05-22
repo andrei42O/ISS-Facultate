@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="Order"
+           table="Orders">
+        <id name="ID"
+            type="java.lang.Long"
+            column="id">
+            <generator class="increment"/>
+        </id>
+        <many-to-one name="agent" column="agent_id" class="Agent"/>
+        <set name="products" table="products_to_orders" cascade="save-update">
+            <key column="order_id"/>
+            <composite-element class="OrderProduct">
+                <property name="quantity"/>
+                <many-to-one name="product" column="product_id"/>
+            </composite-element>
+        </set>
+        <property name="placed" type="java.lang.Boolean" column="placed"/>
+    </class>
+</hibernate-mapping>

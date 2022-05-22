@@ -24,6 +24,11 @@ application{
 dependencies {
     implementation 'org.springframework:spring-context:5.3.17'
     implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'org.hibernate:hibernate-core:5.2.10.Final'
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    implementation 'org.javassist:javassist:3.28.0-GA'
+
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

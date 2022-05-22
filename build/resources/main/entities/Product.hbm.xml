@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="Product"
+           table="Products">
+        <id name="ID" type="java.lang.Long" column="id">
+            <generator class="increment"/>
+        </id>
+        <property
+                name="name"
+                type="java.lang.String"
+                column="name"/>
+        <property name="price"
+                  type="java.lang.Double"
+                  column="price"/>
+        <property name="stock"
+                  type="java.lang.Long"
+                  column="stock"/>
+        <property name="details"
+                  type="java.lang.String"
+                  column="details"/>
+    </class>
+</hibernate-mapping>

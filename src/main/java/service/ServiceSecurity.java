@@ -5,7 +5,7 @@ import persistance.IRepositoryDBUsers;
 
 import java.util.Objects;
 
-public class ServiceSecurity {
+public class ServiceSecurity implements IService{
     IRepositoryDBUsers repositoryUsers = null;
 
     public ServiceSecurity(IRepositoryDBUsers repositoryUsers) {
@@ -16,6 +16,7 @@ public class ServiceSecurity {
     }
 
     public User login(String username, String password) throws RuntimeException{
+        repositoryUsers.getAll().forEach(System.out::println);
         User user = repositoryUsers.findByUsername(username);
         if(user == null)
             throw new RuntimeException("No user found with that username!\n");

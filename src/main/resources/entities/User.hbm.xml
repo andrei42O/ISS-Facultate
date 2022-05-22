@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+        <class name="User"
+               table="users"
+               discriminator-value="null">
+            <id name="ID" type="java.lang.Long" column="id">
+                <generator class="increment"/>
+            </id>
+            <discriminator column="job_type" type="string"/>
+            <property
+                    name="username"
+                    type="java.lang.String"
+                    column="username"/>
+            <property name="password"
+                      type="java.lang.String"
+                      column="password"/>
+            <property name="jobAsString"
+                      type="java.lang.String"
+                      column="job_type"
+                      insert="false"
+                      update="false"/>
+            <property name="name"
+                      type="java.lang.String"
+                      column="name"/>
+            <subclass name="Agent" discriminator-value="Agent"/>
+            <subclass name="Admin" discriminator-value="Admin"/>
+        </class>
+</hibernate-mapping>

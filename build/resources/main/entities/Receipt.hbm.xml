@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="Receipt"
+           table="receipts"
+           discriminator-value="null">
+        <id name="ID" type="java.lang.Long" column="id">
+            <generator class="increment"/>
+        </id>
+        <property
+                name="clientName"
+                type="java.lang.String"
+                column="client_name"/>
+        <property name="address"
+                  type="java.lang.String"
+                  column="address"/>
+        <property name="date"
+                  type="java.time.LocalDateTime"
+                  column="date"/>
+        <many-to-one name="order"
+                  column="order_id"
+                  class="Order"/>
+    </class>
+</hibernate-mapping>

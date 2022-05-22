@@ -9,8 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.Admin;
+import model.Agent;
 import model.JobType;
 import model.User;
+import service.IService;
 import service.ServiceAdmin;
 
 import java.util.Arrays;
@@ -40,11 +44,20 @@ public class AdminController implements IController {
     private ServiceAdmin service;
     private ObservableList<String> jobComboBoxObservableList = FXCollections.observableArrayList();
     private ObservableList<User> agentObservableList = FXCollections.observableArrayList();
+    private Stage stage = null;
 
     public void load() {
         loadJobBox();
         loadAgents();
         handleOperation();
+    }
+
+    private User getWorker(String username, String password, String name, JobType job){
+        return switch (job) {
+            case Admin -> new Admin(username, password, name);
+            case Agent -> new Agent(username, password, name);
+            default -> null;
+        };
     }
 
     private void handleOperation() {
@@ -55,12 +68,13 @@ public class AdminController implements IController {
                 String username = usernameField.getText();
                 String password = passwordField.getText();
                 String name = nameField.getText();
+                System.out.println(jobComboBox.getSelectionModel().getSelectedItem());
                 JobType job = JobType.valueOf(jobComboBox.getSelectionModel().getSelectedItem());
                 if (username.length() == 0 || password.length() == 0 || name.length() == 0) {
                     System.out.println("Valori eronate!");
                 }
                 try {
-                    if (service.addAgent(new User(username, password, name, job)) == null) {
+                    if (service.addUser(getWorker(username, password, name, job)) == null) {
                         System.out.println("Salvare esuata! :(");
                     }
                 } catch (Exception e) {
@@ -90,7 +104,7 @@ public class AdminController implements IController {
                 User selectedUser = agentsList.getSelectionModel().getSelectedItems().get(0);
                 System.out.println(selectedUser);
                 try {
-                    if (service.updateAgent(new User(username, password, name, job), selectedUser.getID()) == null) {
+                    if (service.updateAgent(getWorker(username, password, name, job), selectedUser.getID()) == null) {
                         System.out.println("Modificare esuata! :(");
                     }
                 } catch (Exception e) {
@@ -148,7 +162,13 @@ public class AdminController implements IController {
         jobComboBox.getSelectionModel().select(0);
     }
 
-    public void setService(ServiceAdmin service) {
-        this.service = service;
+    @Override
+    public void setService(IService service) {
+        this.service = (ServiceAdmin)service;
+    }
+
+    @Override
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

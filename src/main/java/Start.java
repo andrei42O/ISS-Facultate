@@ -1,3 +1,4 @@
+import Utils.SessionFactoryUtils;
 import controllers.ControllerLogin;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -5,8 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import persistance.IRepositoryDBUsers;
-import persistance.RepositoryDBUsers;
-import service.ServiceAdmin;
+import persistance.RepositoryORMUser;
 import service.ServiceSecurity;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class Start extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("view/login_window.fxml"));
         Pane pane = (Pane) loader.load();
         ControllerLogin loginController = loader.getController();
-        loginController.setServiceLogin(getServiceLogin(getProps()));
+        loginController.setService(getServiceLogin());
         loginController.setStage(primaryStage);
         loginController.load();
         Scene scene = new Scene(pane);
@@ -28,24 +28,8 @@ public class Start extends Application {
         primaryStage.show();
     }
 
-    public static Properties getProps(){
-        Properties props = new Properties();
-        try {
-            props.load(Start.class.getResourceAsStream("/iss.properties"));
-//            Path currentRelativePath = Paths.get("");
-//            String s = currentRelativePath.toAbsolutePath().toString();
-//            System.out.println("Current absolute path is: " + s);
-            System.out.println("Props loaded");
-            props.list(System.out);
-        } catch (IOException e) {
-            System.err.println("Cannot find iss.properties");
-            return null;
-        }
-        return props;
-    }
-
-    public static ServiceSecurity getServiceLogin(Properties props){
-        IRepositoryDBUsers repo = new RepositoryDBUsers(props);
+    public static ServiceSecurity getServiceLogin(){
+        IRepositoryDBUsers repo = new RepositoryORMUser(SessionFactoryUtils.getSessionFactory());
         return new ServiceSecurity(repo);
     }
 }
