@@ -118,7 +118,10 @@ public class OrderController implements IController, IObserver<Event> {
 
     private void loadProductsList(Iterable<Product> products) {
         productsList.clear();
-        products.forEach(productsList::add);
+        products.forEach(p -> {
+            if(p.getStock() != 0)
+                productsList.add(p);
+        });
     }
 
     private void assignSignals() {

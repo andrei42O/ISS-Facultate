@@ -78,7 +78,10 @@ public class AgentController implements IController, IObserver<Event> {
 
     private void loadProducts(Iterable<Product> products) {
         productsList.clear();
-        products.forEach(productsList::add);
+        products.forEach(p -> {
+            if(p.getStock() != 0)
+                productsList.add(p);
+        });
     }
 
 
@@ -174,7 +177,8 @@ public class AgentController implements IController, IObserver<Event> {
             ordersList.remove(((Receipt)arg.getObject()).getOrder());
         if(arg instanceof ProductQuantityUpdated) {
             productsList.remove((Product) arg.getObject());
-            productsList.add((Product) arg.getObject());
+            if(((Product) arg.getObject()).getStock() != 0)
+                productsList.add((Product) arg.getObject());
         }
     }
 }
